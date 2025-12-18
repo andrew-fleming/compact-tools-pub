@@ -50,7 +50,6 @@ async function compileContract(contractFile: string): Promise<void> {
   mkdirSync(outputDir, { recursive: true });
   mkdirSync(join(outputDir, 'keys'), { recursive: true });
 
-  // const command = `compact compile --skip-zk "${inputPath}" "${outputDir}"`;
   const command = `compact compile +${COMPILER_VERSION} --skip-zk "${inputPath}" "${outputDir}"`;
 
   try {
@@ -58,7 +57,7 @@ async function compileContract(contractFile: string): Promise<void> {
   } catch (err: unknown) {
     if (err && typeof err === 'object' && 'code' in err && err.code === 127) {
       throw new Error(
-        `\`compact\` compiler version ${COMPILER_VERSION} not found. Is it installed?`,
+        `\`compact\` compiler version ${COMPILER_VERSION} not found. Is it installed?`
       );
     }
     throw err;
