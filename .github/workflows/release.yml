@@ -23,7 +23,7 @@ jobs:
   release:
     name: Release ${{ inputs.package }}
     runs-on: ubuntu-24.04
-    environment: compact-npm-prod # Requires approval
+    environment: compact-npm-prod # Includes npm token and requires approval
 
     permissions:
       contents: write # Required to push commits and tags
@@ -80,6 +80,7 @@ jobs:
           cd packages/${{ steps.pkg.outputs.dir }}
           yarn pack --dry-run
 
+      # Uses GitHub API to create signed commits
       - name: Commit version bump
         uses: iarekylew00t/verified-bot-commit@d7e8eea1f154881e1f9d70a3fd933e740148b7f4 # v2.1.1
         with:
