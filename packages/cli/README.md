@@ -23,7 +23,7 @@ Verify your Compact installation:
 
 ```bash
 $ compact compile --version
-Compactc version: 0.26.0
+Compactc version: 0.28.0
 ```
 
 ## Binaries
@@ -235,13 +235,13 @@ yarn clean
 
 ```
 ℹ [COMPILE] Compact compiler started
-ℹ [COMPILE] Compact developer tools: compact 0.1.0
-ℹ [COMPILE] Compact toolchain: Compactc version: 0.26.0
+ℹ [COMPILE] Compact developer tools: compact 0.2.0
+ℹ [COMPILE] Compact toolchain: Compactc version: 0.28.0
 ℹ [COMPILE] Found 2 .compact file(s) to compile
 ✔ [COMPILE] [1/2] Compiled AccessControl.compact
-    Compactc version: 0.26.0
+    Compactc version: 0.28.0
 ✔ [COMPILE] [2/2] Compiled Token.compact
-    Compactc version: 0.26.0
+    Compactc version: 0.28.0
 ```
 
 ## License
