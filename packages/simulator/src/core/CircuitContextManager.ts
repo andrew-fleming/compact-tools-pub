@@ -54,7 +54,6 @@ export class CircuitContextManager<P> {
     } = contract.initialState(initCtx, ...contractArgs);
 
     // Extract ChargedState from the compiler-generated ContractState
-    // The compiler returns`ContractState.data` aka ChargedState
     const chargedState = currentContractState.data;
 
     this.context = {
