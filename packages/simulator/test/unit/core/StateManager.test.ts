@@ -129,7 +129,7 @@ describe('CircuitContextManager', () => {
         currentQueryContext: modifiedTxCtx,
         currentPrivateState: initialPrivateState,
         currentZswapLocalState: zswapLocalState_1,
-        costModel: modifiedTxCtx,
+        costModel: ctx.costModel,
       };
 
       circuitCtxManager.setContext(newCtx);
