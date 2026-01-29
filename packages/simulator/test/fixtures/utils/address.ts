@@ -2,7 +2,7 @@ import {
   convertFieldToBytes,
   encodeCoinPublicKey,
 } from '@midnight-ntwrk/compact-runtime';
-import { encodeContractAddress } from '@midnight-ntwrk/ledger';
+import { encodeContractAddress } from '@midnight-ntwrk/ledger-v7';
 import type * as Compact from '../artifacts/SampleZOwnable/contract/index.js';
 
 const PREFIX_ADDRESS = '0200';
@@ -29,13 +29,20 @@ export const encodeToPK = (str: string): Compact.ZswapCoinPublicKey => ({
 
 /**
  * @description Generates ContractAddress from `str` for testing purposes.
- *              Prepends 32-byte hex with PREFIX_ADDRESS before encoding.
+ *              Truncates to 31 bytes before prepending PREFIX_ADDRESS to comply
+ *              with field value constraints (max unsigned integer is 2^248-1).
+ *              The truncation compensates for the bytes added by the prefix.
  * @param str String to hexify and encode.
  * @returns Encoded `ZswapCoinPublicKey`.
  */
-export const encodeToAddress = (str: string): Compact.ContractAddress => ({
-  bytes: encodeContractAddress(PREFIX_ADDRESS + toHexPadded(str)),
-});
+export const encodeToAddress = (str: string): Compact.ContractAddress => {
+  const hex = toHexPadded(str);
+  // Remove last 2 bytes (4 hex chars) to comply with 31-byte field limit
+  const truncated = hex.slice(0, -4);
+  return {
+    bytes: encodeContractAddress(PREFIX_ADDRESS + truncated),
+  };
+};
 
 /**
  * @description Generates an Either object for ZswapCoinPublicKey for testing.
