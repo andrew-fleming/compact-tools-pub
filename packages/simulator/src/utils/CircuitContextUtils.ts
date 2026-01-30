@@ -61,6 +61,6 @@ export function useCircuitContextSender<
     ),
     currentZswapLocalState: emptyZswapLocalState(sender),
     costModel: currentCircuitContext.costModel,
-    gasLimit: currentCircuitContext.gasLimit
+    gasLimit: currentCircuitContext.gasLimit,
   };
 }
