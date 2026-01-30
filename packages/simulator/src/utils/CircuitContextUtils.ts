@@ -50,7 +50,7 @@ export function useCircuitContextSender<
 >(contract: C, sender: CoinPublicKey): CircuitContext<P> {
   const currentCircuitContext = contract.circuitContext;
   const currentPrivateState = contract.getPrivateState();
-  const existingChargedState = currentContext.currentQueryContext.state;
+  const existingChargedState = currentCircuitContext.currentQueryContext.state;
   const contractAddress = contract.contractAddress;
 
   return {
@@ -60,6 +60,7 @@ export function useCircuitContextSender<
       contractAddress,
     ),
     currentZswapLocalState: emptyZswapLocalState(sender),
-    costModel: currentContext.costModel,
+    costModel: currentCircuitContext.costModel,
+    gasLimit: currentCircuitContext.gasLimit
   };
 }

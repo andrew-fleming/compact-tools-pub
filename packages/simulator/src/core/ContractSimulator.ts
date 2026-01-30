@@ -44,6 +44,7 @@ export abstract class ContractSimulator<P, L> extends AbstractSimulator<P, L> {
         ? emptyZswapLocalState(activeCaller)
         : baseCtx.currentZswapLocalState,
       costModel: baseCtx.costModel,
+      gasLimit: baseCtx.gasLimit
     };
   }
 
