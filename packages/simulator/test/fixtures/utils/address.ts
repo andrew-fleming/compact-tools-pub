@@ -37,7 +37,6 @@ export const encodeToPK = (str: string): Compact.ZswapCoinPublicKey => ({
  */
 export const encodeToAddress = (str: string): Compact.ContractAddress => {
   const hex = toHexPadded(str);
-  // Remove last 2 bytes (4 hex chars) to comply with 31-byte field limit
   const truncated = hex.slice(0, -4);
   return {
     bytes: encodeContractAddress(PREFIX_ADDRESS + truncated),
