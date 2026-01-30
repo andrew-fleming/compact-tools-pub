@@ -48,7 +48,7 @@ export function useCircuitContextSender<
   L,
   C extends IContractSimulator<P, L>,
 >(contract: C, sender: CoinPublicKey): CircuitContext<P> {
-  const currentContext = contract.circuitContext;
+  const currentCircuitContext = contract.circuitContext;
   const currentPrivateState = contract.getPrivateState();
   const existingChargedState = currentContext.currentQueryContext.state;
   const contractAddress = contract.contractAddress;

@@ -29,11 +29,11 @@ export const encodeToPK = (str: string): Compact.ZswapCoinPublicKey => ({
 
 /**
  * @description Generates ContractAddress from `str` for testing purposes.
- *              Truncates to 31 bytes before prepending PREFIX_ADDRESS to comply
+ *              Truncates to 30 bytes before prepending PREFIX_ADDRESS to comply
  *              with field value constraints (max unsigned integer is 2^248-1).
  *              The truncation compensates for the bytes added by the prefix.
  * @param str String to hexify and encode.
- * @returns Encoded `ZswapCoinPublicKey`.
+ * @returns Encoded `Compact.ContractAddress`.
  */
 export const encodeToAddress = (str: string): Compact.ContractAddress => {
   const hex = toHexPadded(str);
