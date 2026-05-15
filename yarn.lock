@@ -381,14 +381,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openzeppelin/compact-tools-cli@workspace:packages/cli":
+"@openzeppelin/compact-builder@workspace:^, @openzeppelin/compact-builder@workspace:packages/builder":
   version: 0.0.0-use.local
-  resolution: "@openzeppelin/compact-tools-cli@workspace:packages/cli"
+  resolution: "@openzeppelin/compact-builder@workspace:packages/builder"
   dependencies:
     "@tsconfig/node24": "npm:^24.0.3"
     "@types/node": "npm:24.10.1"
+    "@types/shell-quote": "npm:^1.7.5"
     chalk: "npm:^5.6.2"
     log-symbols: "npm:^7.0.0"
+    ora: "npm:^9.0.0"
+    shell-quote: "npm:^1.8.3"
+    typescript: "npm:^5.9.3"
+    vitest: "npm:^4.0.15"
+  languageName: unknown
+  linkType: soft
+
+"@openzeppelin/compact-cli@workspace:packages/cli":
+  version: 0.0.0-use.local
+  resolution: "@openzeppelin/compact-cli@workspace:packages/cli"
+  dependencies:
+    "@openzeppelin/compact-builder": "workspace:^"
+    "@tsconfig/node24": "npm:^24.0.3"
+    "@types/node": "npm:24.10.1"
+    chalk: "npm:^5.6.2"
     ora: "npm:^9.0.0"
     typescript: "npm:^5.9.3"
     vitest: "npm:^4.0.15"
@@ -398,9 +414,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@openzeppelin/compact-tools-simulator@workspace:packages/simulator":
+"@openzeppelin/compact-simulator@workspace:packages/simulator":
   version: 0.0.0-use.local
-  resolution: "@openzeppelin/compact-tools-simulator@workspace:packages/simulator"
+  resolution: "@openzeppelin/compact-simulator@workspace:packages/simulator"
   dependencies:
     "@midnight-ntwrk/compact-runtime": "npm:0.14.0"
     "@midnight-ntwrk/ledger-v7": "npm:^7.0.0"
@@ -408,19 +424,6 @@ __metadata:
     "@types/node": "npm:24.10.1"
     fast-check: "npm:^4.5.2"
     typescript: "npm:^5.8.2"
-    vitest: "npm:^4.0.15"
-  languageName: unknown
-  linkType: soft
-
-"@openzeppelin/compact-tools@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@openzeppelin/compact-tools@workspace:."
-  dependencies:
-    "@biomejs/biome": "npm:2.3.8"
-    "@types/node": "npm:24.10.1"
-    ts-node: "npm:^10.9.2"
-    turbo: "npm:^2.6.1"
-    typescript: "npm:^5.9.3"
     vitest: "npm:^4.0.15"
   languageName: unknown
   linkType: soft
@@ -689,6 +692,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/shell-quote@npm:^1.7.5":
+  version: 1.7.5
+  resolution: "@types/shell-quote@npm:1.7.5"
+  checksum: 10/32b4d697c7d23dbadf40713692c47f1595f083a3b3deea76cb18e30a05d197aa9205d2b87f6d92edb60cda120b51e35d32bda96ed9b0a7e32921eed2deb4559e
+  languageName: node
+  linkType: hard
+
 "@vitest/expect@npm:4.0.15":
   version: 4.0.15
   resolution: "@vitest/expect@npm:4.0.15"
@@ -933,6 +943,19 @@ __metadata:
   checksum: 10/b0445859521eb4021cd0fb0cc1a75cecf67fceecae89b63f62b201cca8d345baf8b952c966862a9d9a2632987d4f6581f0ec8d957dfacece86f0a7919316f610
   languageName: node
   linkType: hard
+
+"compact-tools-monorepo@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "compact-tools-monorepo@workspace:."
+  dependencies:
+    "@biomejs/biome": "npm:2.3.8"
+    "@types/node": "npm:24.10.1"
+    ts-node: "npm:^10.9.2"
+    turbo: "npm:^2.6.1"
+    typescript: "npm:^5.9.3"
+    vitest: "npm:^4.0.15"
+  languageName: unknown
+  linkType: soft
 
 "create-require@npm:^1.1.0":
   version: 1.1.1
@@ -1782,6 +1805,13 @@ __metadata:
   version: 3.0.0
   resolution: "shebang-regex@npm:3.0.0"
   checksum: 10/1a2bcae50de99034fcd92ad4212d8e01eedf52c7ec7830eedcf886622804fe36884278f2be8be0ea5fde3fd1c23911643a4e0f726c8685b61871c8908af01222
+  languageName: node
+  linkType: hard
+
+"shell-quote@npm:^1.8.3":
+  version: 1.8.3
+  resolution: "shell-quote@npm:1.8.3"
+  checksum: 10/5473e354637c2bd698911224129c9a8961697486cff1fb221f234d71c153fc377674029b0223d1d3c953a68d451d79366abfe53d1a0b46ee1f28eb9ade928f4c
   languageName: node
   linkType: hard
 

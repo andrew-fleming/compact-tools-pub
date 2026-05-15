@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-import chalk from 'chalk';
-import ora, { type Ora } from 'ora';
-import { CompactCompiler } from './Compiler.ts';
 import {
+  CompactCompiler,
   type CompilationError,
   isPromisifiedChildProcessError,
-} from './types/errors.ts';
+} from '@openzeppelin/compact-builder';
+import chalk from 'chalk';
+import ora, { type Ora } from 'ora';
 
 /**
  * Executes the Compact compiler CLI with improved error handling and user feedback.
@@ -40,7 +40,7 @@ import {
  *
  * @example Version specification
  * ```bash
- * npx compact-compiler --dir security --skip-zk +0.26.0
+ * npx compact-compiler --dir security --skip-zk +<version>
  * ```
  */
 async function runCompiler(): Promise<void> {
@@ -130,12 +130,17 @@ function handleError(error: unknown, spinner: Ora): void {
     return;
   }
 
-  // Arg parsing
+  // Arg parsing — recognize all parser-emitted "flag requires a value" errors,
+  // not just --dir, so users get usage help for any malformed invocation.
   const errorMessage = error instanceof Error ? error.message : String(error);
-  if (errorMessage.includes('--dir flag requires a directory name')) {
-    spinner.fail(
-      chalk.red('[COMPILE] Error: --dir flag requires a directory name'),
-    );
+  const parserErrors = [
+    '--dir flag requires a directory name',
+    '--src flag requires a directory path',
+    '--out flag requires a directory path',
+    '--exclude flag requires a pattern',
+  ];
+  if (parserErrors.some((msg) => errorMessage.includes(msg))) {
+    spinner.fail(chalk.red(`[COMPILE] Error: ${errorMessage}`));
     showUsageHelp();
     return;
   }
@@ -186,12 +191,15 @@ function showUsageHelp(): void {
     ),
   );
   console.log(
+    chalk.yellow(
+      '  --exclude <glob>  Skip .compact files matching the glob (repeatable)',
+    ),
+  );
+  console.log(
     chalk.yellow('  --skip-zk         Skip zero-knowledge proof generation'),
   );
   console.log(
-    chalk.yellow(
-      '  +<version>        Use specific toolchain version (e.g., +0.26.0)',
-    ),
+    chalk.yellow('  +<version>        Pin the Compact toolchain version'),
   );
   console.log(chalk.yellow('\nArtifact Output Structure:'));
   console.log(chalk.yellow('  Default (flattened): <out>/<ContractName>/'));
@@ -231,7 +239,7 @@ function showUsageHelp(): void {
   );
   console.log(
     chalk.yellow(
-      '  compact-compiler --skip-zk +0.26.0          # Use specific version',
+      '  compact-compiler --skip-zk +<version>       # Pin toolchain version',
     ),
   );
   console.log(chalk.yellow('\nTurbo integration:'));

@@ -1,5 +1,5 @@
 {
-  "name": "@openzeppelin/compact-tools-simulator",
+  "name": "@openzeppelin/compact-simulator",
   "description": "Simulator for testing Compact smart contracts",
   "version": "0.0.1",
   "keywords": [
@@ -8,7 +8,7 @@
     "simulator",
     "testing"
   ],
-  "author": "",
+  "author": "OpenZeppelin Community <maintainers@openzeppelin.org>",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -20,6 +20,11 @@
       "require": "./dist/index.js"
     }
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "engines": {
     "node": ">=22"
   },

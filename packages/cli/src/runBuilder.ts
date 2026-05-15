@@ -1,35 +1,32 @@
 #!/usr/bin/env node
 
+import { CompactBuilder } from '@openzeppelin/compact-builder';
 import chalk from 'chalk';
 import ora from 'ora';
-import { CompactBuilder } from './Builder.ts';
 
 /**
  * Executes the Compact builder CLI.
  * Builds projects using the `CompactBuilder` class with provided options, including compilation and additional steps.
  *
- * Supports compiler options:
- * - `--dir <directory>` - Compile specific subdirectory
- * - `--src <directory>` - Source directory (default: src)
- * - `--out <directory>` - Output directory (default: artifacts)
- * - `--hierarchical` - Preserve directory structure in output
- * - `+<version>` - Use specific toolchain version
+ * Compiler options (forwarded to `compact-compiler`):
+ * - `--dir <directory>`  - Compile specific subdirectory within srcDir
+ * - `--src <directory>`  - Source directory (default: src)
+ * - `--out <directory>`  - Output directory for artifacts (default: artifacts)
+ * - `--hierarchical`     - Preserve source directory structure in BOTH the
+ *                          compiler artifacts output AND the builder's
+ *                          .compact copy into dist/ (default off: flat in both)
+ * - `--exclude <glob>`   - Skip .compact files matching pattern, in BOTH the
+ *                          compiler's file discovery AND the builder's
+ *                          .compact copy (repeatable). When unset, the builder
+ *                          falls back to ['Mock*', '*.mock.compact']; the
+ *                          compiler defaults to no excludes.
+ * - `+<version>`         - Use specific toolchain version
  *
- * @example
- * ```bash
- * npx compact-builder
- * npx compact-builder --src contracts --out build
- * ```
- * Expected output:
- * ```
- * ℹ [BUILD] Compact builder started
- * ℹ [COMPILE] Found 1 .compact file(s) to compile
- * ✔ [COMPILE] [1/1] Compiled Foo.compact
- *     Compactc version: 0.26.0
- * ✔ [BUILD] [1/3] Compiling TypeScript
- * ✔ [BUILD] [2/3] Copying artifacts
- * ✔ [BUILD] [3/3] Copying and cleaning .compact files
- * ```
+ * Builder-only options (control dist/ layout):
+ * - `--clean-dist`       - rm -rf dist before building (default off)
+ * - `--copy <path>`      - copy an extra file into dist/ for distribution (repeatable; e.g. package.json)
+ *
+ * See `packages/cli/README.md` for usage examples.
  */
 async function runBuilder(): Promise<void> {
   const spinner = ora(chalk.blue('[BUILD] Compact Builder started')).info();

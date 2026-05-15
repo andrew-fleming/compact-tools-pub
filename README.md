@@ -1,4 +1,4 @@
-[![Generic badge](https://img.shields.io/badge/Compact%20Compiler-0.26.0-1abc9c.svg)](https://docs.midnight.network/relnotes/compact/minokawa-0-18-26-0)
+[![Generic badge](https://img.shields.io/badge/Compact%20Compiler-0.29.0-1abc9c.svg)](https://docs.midnight.network/relnotes/compact/)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/OpenZeppelin/compact-tools/badge)](https://api.securityscorecards.dev/projects/github.com/OpenZeppelin/compact-tools)
 
@@ -8,32 +8,38 @@ This project extends the Midnight Network with additional developer tooling.
 
 Tools for compiling, building, and testing Compact smart contracts. This is a monorepo containing:
 
-- `packages/cli`: CLI utilities to run the Compact compiler and builder
-- `packages/simulator`: TypeScript simulator to run and test Compact contracts locally
+- [`packages/builder`](./packages/builder) — programmatic library that drives the Compact compiler + builder
+- [`packages/cli`](./packages/cli) — thin bin wrapper around the builder library (`compact-compiler`, `compact-builder`)
+- [`packages/simulator`](./packages/simulator) — TypeScript simulator to run and test Compact contracts locally
 
-## External usage (via git submodule until npm publish)
+See each package's README for usage, options, and examples.
 
-Until packages are published to the npm registry, you can consume this repo from another project using a git submodule:
+## Installation
+
+Pick the package that matches what you need:
 
 ```bash
-# In your project
-git submodule add https://github.com/OpenZeppelin/compact-tools
-git submodule update --init --recursive
+# Programmatic library — call the compiler/builder from TypeScript
+yarn add --dev @openzeppelin/compact-builder
 
-# Install and build the tools
-yarn --cwd tools/compact-tools install
-yarn --cwd tools/compact-tools build
+# CLI bins (compact-compiler, compact-builder) for use in package.json scripts
+yarn add --dev @openzeppelin/compact-cli
 
-# Use the simulator as a local dependency
-# package.json
-"devDependencies": {
-  "@openzeppelin/compact-tools-simulator": "file:./compact-tools/packages/simulator"
-}
-yarn install
+# Simulator — test Compact contracts locally
+yarn add --dev @openzeppelin/compact-simulator
+```
 
-# Call the CLIs directly or via scripts
-node compact-tools/packages/cli/dist/runCompiler.js --help
-node compact-tools/packages/cli/dist/runBuilder.js --help
+`compact-cli` depends transitively on `compact-builder`, so installing the CLI
+gives you both the binaries and the underlying library.
+
+```bash
+yarn compact-compiler --help
+yarn compact-builder --help
+```
+
+```ts
+import { CompactCompiler, CompactBuilder } from '@openzeppelin/compact-builder';
+import { createSimulator } from '@openzeppelin/compact-simulator';
 ```
 
 ## Requirements
@@ -48,13 +54,13 @@ Confirm your Compact toolchain:
 ```bash
 $ compact compile --version
 
-Compactc version: 0.28.0
-0.28.0
+Compactc version: 0.29.0
+0.29.0
 ```
 
-## Getting started
+## Development
 
-Install dependencies at the repo root:
+Clone the repo and install dependencies at the root:
 
 ```bash
 nvm install
@@ -85,45 +91,6 @@ Clean generated artifacts:
 ```bash
 yarn clean
 ```
-
-## Packages
-
-### `@openzeppelin/compact-tools-cli` ([packages/cli](./packages/cli))
-
-CLI utilities for compiling and building Compact smart contracts.
-
-**Quickstart:**
-
-```bash
-# Compile all .compact files
-compact-compiler
-
-# Skip ZK proofs for faster development builds
-compact-compiler --skip-zk
-
-# Compile specific directory
-compact-compiler --dir security
-
-# Full build (compile + TypeScript + copy artifacts)
-compact-builder
-```
-
-See [packages/cli/README.md](./packages/cli/README.md) for full documentation including all options, programmatic API, and examples.
-
-### `@openzeppelin/compact-tools-simulator` ([packages/simulator](./packages/simulator))
-
-TypeScript simulator for testing Compact contracts locally.
-
-**Quickstart:**
-
-```ts
-import { createSimulator } from '@openzeppelin/compact-tools-simulator';
-
-const simulator = createSimulator({});
-// Deploy and execute contract circuits, inspect state, etc.
-```
-
-See package tests in `packages/simulator/src/integration` and `src/unit` for full examples.
 
 ## Contributing
 
