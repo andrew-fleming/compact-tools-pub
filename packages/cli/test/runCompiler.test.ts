@@ -1,25 +1,23 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { CompactCompiler } from '../src/Compiler.js';
 import {
   CompactCliNotFoundError,
+  CompactCompiler,
   CompilationError,
   DirectoryNotFoundError,
   isPromisifiedChildProcessError,
   type PromisifiedChildProcessError,
-} from '../src/types/errors.js';
+} from '@openzeppelin/compact-builder';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-// Mock CompactCompiler
-vi.mock('../src/Compiler.js', () => ({
-  CompactCompiler: {
-    fromArgs: vi.fn(),
-  },
-}));
-
-// Mock error utilities
-vi.mock('../src/types/errors.js', async () => {
-  const actual = await vi.importActual('../src/types/errors.js');
+// Mock the library so we can drive the CLI in isolation.
+vi.mock('@openzeppelin/compact-builder', async () => {
+  const actual = await vi.importActual<
+    typeof import('@openzeppelin/compact-builder')
+  >('@openzeppelin/compact-builder');
   return {
     ...actual,
+    CompactCompiler: {
+      fromArgs: vi.fn(),
+    },
     isPromisifiedChildProcessError: vi.fn(),
   };
 });
@@ -335,10 +333,13 @@ describe('runCompiler CLI', () => {
         '  --hierarchical    Preserve source directory structure in artifacts output',
       );
       expect(mockConsoleLog).toHaveBeenCalledWith(
+        '  --exclude <glob>  Skip .compact files matching the glob (repeatable)',
+      );
+      expect(mockConsoleLog).toHaveBeenCalledWith(
         '  --skip-zk         Skip zero-knowledge proof generation',
       );
       expect(mockConsoleLog).toHaveBeenCalledWith(
-        '  +<version>        Use specific toolchain version (e.g., +0.26.0)',
+        '  +<version>        Pin the Compact toolchain version',
       );
       expect(mockConsoleLog).toHaveBeenCalledWith(
         '\nArtifact Output Structure:',
@@ -369,7 +370,7 @@ describe('runCompiler CLI', () => {
         '  SKIP_ZK=true compact-compiler --dir token   # Use environment variable',
       );
       expect(mockConsoleLog).toHaveBeenCalledWith(
-        '  compact-compiler --skip-zk +0.26.0          # Use specific version',
+        '  compact-compiler --skip-zk +<version>       # Pin toolchain version',
       );
       expect(mockConsoleLog).toHaveBeenCalledWith('\nTurbo integration:');
       expect(mockConsoleLog).toHaveBeenCalledWith(
