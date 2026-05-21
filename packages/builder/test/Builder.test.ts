@@ -111,6 +111,7 @@ describe('CompactBuilder step pipeline', () => {
     expect(steps.map((s) => s.msg)).toEqual([
       'Compiling TypeScript',
       'Copying artifacts',
+      'Removing witness directories from dist',
       'Copying .compact files',
     ]);
   });
@@ -131,7 +132,7 @@ describe('CompactBuilder step pipeline', () => {
 
     expect(steps[0].msg).toBe('Cleaning dist directory');
     expect(steps[0].cmd).toBe('rm -rf dist && mkdir -p dist');
-    expect(steps).toHaveLength(4);
+    expect(steps).toHaveLength(5);
   });
 
   it('uses the hierarchical copy step when hierarchical is true', () => {
@@ -154,6 +155,30 @@ describe('CompactBuilder step pipeline', () => {
     expect(lastStep?.msg).toBe('Copying additional files to dist');
     expect(lastStep?.cmd).toContain("cp 'package.json' dist/");
     expect(lastStep?.cmd).toContain("cp '../README.md' dist/");
+  });
+
+  it('removes witness directories after copying artifacts', () => {
+    const builder = new CompactBuilder();
+    const steps = builder.getSteps();
+    const witnessStep = steps.find(
+      (s) => s.msg === 'Removing witness directories from dist',
+    );
+
+    expect(witnessStep).toBeDefined();
+    expect(witnessStep?.cmd).toBe(
+      'find dist -type d -name "witnesses" -exec rm -rf {} +',
+    );
+  });
+
+  it('runs witness removal after artifact copy and before .compact copy', () => {
+    const builder = new CompactBuilder();
+    const msgs = builder.getSteps().map((s) => s.msg);
+    const artifactIdx = msgs.indexOf('Copying artifacts');
+    const witnessIdx = msgs.indexOf('Removing witness directories from dist');
+    const compactIdx = msgs.indexOf('Copying .compact files');
+
+    expect(witnessIdx).toBe(artifactIdx + 1);
+    expect(witnessIdx).toBeLessThan(compactIdx);
   });
 
   it('classifies excludes into -name and -path', () => {
@@ -199,6 +224,7 @@ describe('CompactBuilder step pipeline', () => {
       'Cleaning dist directory',
       'Compiling TypeScript',
       'Copying artifacts',
+      'Removing witness directories from dist',
       'Copying .compact files (preserving structure)',
       'Copying additional files to dist',
     ]);
