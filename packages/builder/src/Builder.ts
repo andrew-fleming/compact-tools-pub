@@ -170,6 +170,12 @@ export class CompactBuilder {
       shell: '/bin/bash',
     });
 
+    steps.push({
+      cmd: 'find dist -type d -name "witnesses" -exec rm -rf {} +',
+      msg: 'Removing witness directories from dist',
+      shell: '/bin/bash',
+    });
+
     if (this.options.hierarchical) {
       steps.push({
         // biome-ignore-start lint/suspicious/noUselessEscapeInString: shell vars must survive JS template-literal interpolation
