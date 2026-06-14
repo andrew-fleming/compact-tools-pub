@@ -54,8 +54,8 @@ Confirm your Compact toolchain:
 ```bash
 $ compact compile --version
 
-Compactc version: 0.29.0
-0.29.0
+Compactc version: 0.31.0
+0.31.0
 ```
 
 ## Development

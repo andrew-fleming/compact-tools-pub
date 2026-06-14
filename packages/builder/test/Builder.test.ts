@@ -70,12 +70,12 @@ describe('CompactBuilder.parseArgs', () => {
       '--dir',
       'security',
       '--skip-zk',
-      '+0.29.0',
+      '+0.31.0',
     ]);
 
     expect(options.targetDir).toBe('security');
     expect(options.flags).toBe('--skip-zk');
-    expect(options.version).toBe('0.29.0');
+    expect(options.version).toBe('0.31.0');
   });
 
   it('combines builder and compiler flags', () => {
@@ -90,7 +90,7 @@ describe('CompactBuilder.parseArgs', () => {
       'package.json',
       '--src',
       'contracts',
-      '+0.29.0',
+      '+0.31.0',
     ]);
 
     expect(options.cleanDist).toBe(true);
@@ -99,7 +99,7 @@ describe('CompactBuilder.parseArgs', () => {
     expect(options.copyToDist).toEqual(['package.json']);
     expect(options.targetDir).toBe('token');
     expect(options.srcDir).toBe('contracts');
-    expect(options.version).toBe('0.29.0');
+    expect(options.version).toBe('0.31.0');
   });
 });
 

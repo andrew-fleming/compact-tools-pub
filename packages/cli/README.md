@@ -19,7 +19,7 @@ yarn compact-builder --help
 ```
 
 Typical `package.json` scripts (replace `<version>` with the Compact
-toolchain release you want to pin, e.g. `+0.29.0`):
+toolchain release you want to pin, e.g. `+0.31.0`):
 
 ```json
 {
@@ -46,7 +46,7 @@ options:
 | `--hierarchical` | both | Preserve source directory structure in artifacts AND in the builder's `.compact` copy. |
 | `--exclude <pattern>` | both | Skip `.compact` files matching the glob (repeatable). Default for the builder: `Mock*`, `*.mock.compact`. |
 | `--skip-zk` | compiler | Skip zero-knowledge proof generation (also via `SKIP_ZK=true` env var). |
-| `+<version>` | both | Pin the Compact toolchain version (e.g `+0.29.0`). |
+| `+<version>` | both | Pin the Compact toolchain version (e.g `+0.31.0`). |
 | `--clean-dist` | builder | `rm -rf dist` before building. |
 | `--copy <path>` | builder | Copy an extra file into `dist/` (repeatable; e.g. `package.json`, `../README.md`). |
 
@@ -60,7 +60,7 @@ documentation, programmatic API, and behavioural details.
 
 ```bash
 $ compact compile --version
-Compactc version: 0.29.0
+Compactc version: 0.31.0
 ```
 
 ## See also
